@@ -23,7 +23,3 @@ Popups displaying the animal, reason for danger, and category
 Filter buttons to quickly isolate categories (mammals, insects, marine, etc.)
 
 Fully responsive layout that works across browsers and screen sizes
-
-Learning Outcomes:
-
-This project demonstrates applied skills in web mapping, JavaScript logic, spatial data handling, and UI/UX design. It represents the culmination of core GHY 4818 concepts: data transformation, Map-to-Web workflows, and interactive cartography.
