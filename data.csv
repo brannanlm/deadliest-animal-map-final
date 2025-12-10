@@ -1,0 +1,51 @@
+state,animal,reason,category
+Alabama,Eastern Diamondback Rattlesnake,Highly venomous,Reptile
+Alaska,Moose,Aggressive encounters and collisions,Mammal
+Arizona,Bark Scorpion,Potent venom,Insect
+Arkansas,Black Bear,Rare attacks but most dangerous predator,Mammal
+California,Mountain Lion,Predatory wilderness attacks,Mammal
+Colorado,Black Bear,Encounters near homes,Mammal
+Connecticut,Ticks,Lyme disease vector,Insect
+Delaware,Deer,Vehicle collisions,Mammal
+Florida,Alligator,Frequent human encounters,Reptile
+Georgia,Cottonmouth,Venomous bite,Reptile
+Hawaii,Box Jellyfish,Dangerous stings,Marine
+Idaho,Mountain Lion,Predatory attacks,Mammal
+Illinois,Deer,Vehicle collisions,Mammal
+Indiana,Deer,Vehicle collisions,Mammal
+Iowa,Deer,Vehicle collisions,Mammal
+Kansas,Deer,Vehicle collisions,Mammal
+Kentucky,Copperhead,Venomous bite,Reptile
+Louisiana,Alligator,Aggressive encounters,Reptile
+Maine,Moose,Vehicle collisions,Mammal
+Maryland,Deer,Vehicle collisions,Mammal
+Massachusetts,Ticks,Lyme disease vector,Insect
+Michigan,Deer,Vehicle collisions,Mammal
+Minnesota,Deer,Vehicle collisions,Mammal
+Mississippi,Eastern Diamondback Rattlesnake,Venomous bite,Reptile
+Missouri,Brown Recluse,Venomous bite,Arachnid
+Montana,Grizzly Bear,Defensive attacks,Mammal
+Nebraska,Deer,Vehicle collisions,Mammal
+Nevada,Mojave Rattlesnake,Highly venomous,Reptile
+New Hampshire,Moose,Vehicle collisions,Mammal
+New Jersey,Ticks,Lyme disease vector,Insect
+New Mexico,Black Widow,Venomous bite,Arachnid
+New York,Ticks,Lyme disease vector,Insect
+North Carolina,Copperhead,Highest bite rate in US,Reptile
+North Dakota,Deer,Vehicle collisions,Mammal
+Ohio,Deer,Vehicle collisions,Mammal
+Oklahoma,Brown Recluse,Venomous bite,Arachnid
+Oregon,Black Bear,Human encounters,Mammal
+Pennsylvania,Ticks,Lyme disease vector,Insect
+Rhode Island,Ticks,Lyme disease vector,Insect
+South Carolina,Cottonmouth,Venomous bite,Reptile
+South Dakota,Deer,Vehicle collisions,Mammal
+Tennessee,Brown Recluse,Venomous bite,Arachnid
+Texas,Deer,Vehicle collisions,Mammal
+Utah,Mountain Lion,Wilderness attacks,Mammal
+Vermont,Ticks,Lyme disease vector,Insect
+Virginia,Deer,Vehicle collisions,Mammal
+Washington,Black Bear,Human encounters,Mammal
+West Virginia,Deer,Vehicle collisions,Mammal
+Wisconsin,Deer,Vehicle collisions,Mammal
+Wyoming,Grizzly Bear,Defensive attacks,Mammal

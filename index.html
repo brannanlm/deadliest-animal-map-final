@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Most Dangerous Animal in Each U.S. State</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+        body {
+            background: #101418;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+        }
+
+        #headerBar {
+            width: 100%;
+            background: #0d0f12;
+            border-bottom: 2px solid #222;
+            padding: 15px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        #headerTitle {
+            font-size: 26px;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #4fc3f7;
+            text-transform: uppercase;
+        }
+
+        #headerSubtitle {
+            font-size: 14px;
+            color: #cccccc;
+            font-weight: 300;
+        }
+
+        #articleSource {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 6px;
+            margin-bottom: 10px;
+        }
+
+        #map {
+            height: 85vh;
+            width: 100%;
+            border-bottom: 2px solid #333;
+        }
+
+        #legendBox {
+            position: absolute;
+            top: 110px;
+            right: 20px;
+            background: rgba(20, 20, 20, 0.8);
+            padding: 12px 15px;
+            border-radius: 6px;
+            color: #eee;
+            font-size: 14px;
+            width: 150px;
+            z-index: 9999;
+            border: 1px solid #333;
+        }
+
+        #legendBox h3 {
+            margin-top: 0;
+            font-size: 15px;
+            color: #4fc3f7;
+            border-bottom: 1px solid #333;
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+        }
+
+        .legend-item {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            border-radius: 3px;
+        }
+
+        .mammal { background: #ffcc80; }
+        .reptile { background: #81c784; }
+        .insect { background: #f6e58d; }
+        .arachnid { background: #ff8a80; }
+        .marine { background: #4fc3f7; }
+
+        #filters {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        #filters button {
+            margin: 5px;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            background: #444;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #filters button:hover {
+            background: #4fc3f7;
+            color: #000;
+        }
+
+        #attribution {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="headerBar">
+    <div id="headerTitle">Most Dangerous Animal in Each U.S. State (2025)</div>
+    <div id="headerSubtitle">Interactive Map Based on 2025 Wildlife Risk Reports</div>
+</div>
+<p id="articleSource">
+  Article Source:
+  <a href="https://www.animalsaroundtheglobe.com/the-50-most-dangerous-animals-in-each-us-state-8-201489/" 
+     target="_blank" style="color:#4fc3f7;">
+     “The 50 Most Dangerous Animals in Each US-State Revealed” — Animals Around the Globe (2025)
+  </a>
+</p>
+
+
+<div id="filters">
+    <button onclick="filterMap('all')">Show All</button>
+    <button onclick="filterMap('Mammal')">Mammals</button>
+    <button onclick="filterMap('Reptile')">Reptiles</button>
+    <button onclick="filterMap('Insect')">Insects</button>
+    <button onclick="filterMap('Arachnid')">Arachnids</button>
+    <button onclick="filterMap('Marine')">Marine</button>
+</div>
+
+
+<div id="map"></div>
+
+
+<div id="legendBox">
+    <h3>Legend</h3>
+    <div class="legend-item"><span class="legend-color mammal"></span>Mammal</div>
+    <div class="legend-item"><span class="legend-color reptile"></span>Reptile</div>
+    <div class="legend-item"><span class="legend-color insect"></span>Insect</div>
+    <div class="legend-item"><span class="legend-color arachnid"></span>Arachnid</div>
+    <div class="legend-item"><span class="legend-color marine"></span>Marine</div>
+</div>
+
+
+<div id="attribution">
+  Data Sources: Animals Around the Globe (2025), U.S. Census TIGER/Line Shapefiles
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+
+function getColor(category) {
+    return category === "Mammal"   ? "#ffcc80" :   
+           category === "Reptile"  ? "#81c784" :    
+           category === "Insect"   ? "#f6e58d" :    
+           category === "Arachnid" ? "#ff8a80" :   
+           category === "Marine"   ? "#4fc3f7" :    
+                                     "#b0bec5";      
+}
+
+let map = L.map('map').setView([37.8, -96], 4);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; CARTO &copy; OpenStreetMap contributors'
+}).addTo(map);
+
+let stateLayers = {};
+let data = {};
+
+Promise.all([
+    fetch('us-states.geojson').then(r => r.json()),
+    fetch('data.csv').then(r => r.text())
+]).then(([geoData, csvText]) => {
+
+    const rows = csvText.trim().split('\n').slice(1);
+
+    rows.forEach(row => {
+        const parts = row.split(',');
+        const state = parts[0].trim();
+        const animal = parts[1]?.trim();
+        const reason = parts[2]?.trim();
+        const category = parts[3]?.trim();
+        data[state] = { animal, reason, category };
+    });
+
+    L.geoJson(geoData, {
+        style: feature => ({
+            fillColor: getColor(data[feature.properties.name]?.category),
+            weight: 1,
+            color: "#000",
+            fillOpacity: 0.85
+        }),
+
+        onEachFeature: (feature, layer) => {
+            const state = feature.properties.name;
+            const info = data[state];
+
+            stateLayers[state] = layer;
+
+            layer.on('mouseover', () => {
+                layer.setStyle({
+                    weight: 2,
+                    color: "#fff",
+                    fillOpacity: 0.9
+                });
+            });
+
+            layer.on('mouseout', () => {
+                layer.setStyle({
+                    weight: 1,
+                    color: "#000",
+                    fillOpacity: 0.85
+                });
+            });
+
+            if (info) {
+                layer.bindPopup(`
+                    <b>${state}</b><br>
+                    <b>Animal:</b> ${info.animal}<br>
+                    <b>Reason:</b> ${info.reason}<br>
+                    <b>Category:</b> ${info.category}
+                `);
+            }
+        }
+    }).addTo(map);
+});
+
+function filterMap(category) {
+    Object.keys(stateLayers).forEach(state => {
+        const info = data[state];
+        const layer = stateLayers[state];
+
+        if (category === "all") {
+            layer.setStyle({ fillOpacity: 0.85 });
+        } else if (info && info.category === category) {
+            layer.setStyle({ fillOpacity: 0.85 });
+        } else {
+            layer.setStyle({ fillOpacity: 0.05 });
+        }
+    });
+}
+
+</script>
+</body>
+</html>
