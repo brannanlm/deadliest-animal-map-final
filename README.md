@@ -8,13 +8,13 @@ https://www.animalsaroundtheglobe.com/the-50-most-dangerous-animals-in-each-us-s
 
 Project Purpose & Concept:
 
-The primary goal of this map is to take an article formatted for general audiences and translate its content into a functional, interactive web experience using HTML, CSS, JavaScript, and the Leaflet.js mapping library. Instead of presenting the information as a static list, this map allows users to spatially explore patterns and compare risk levels across regions. Each state is styled by the animal’s danger category, and clicking reveals a popup containing the associated species and risk description.
+The primary goal of this map is to take an article formatted for general audiences and translate its content into a functional, interactive web experience using HTML, CSS, JavaScript, and the Leaflet.js mapping library. Instead of presenting the information as a static list, this map allows users to spatially explore different patterns across each region. By clicking on a state, it will reveal a popup containing the associated species and the reason for its danger.
 
 The project emphasizes user-centered design, prioritizing clarity, accessibility, and ease of navigation. Color-coded categories, hover highlighting, and dynamic popups make the information approachable even for users without any GIS experience.
 
 Features:
 
-Color-coded state polygons representing animal danger categories
+Color-coded state polygons representing the different animal species
 
 Mouseover highlighting to support map navigation
 
